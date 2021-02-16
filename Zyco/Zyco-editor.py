@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import tkinter as tk
 from tkinter import ttk
 import socket
@@ -8,13 +9,19 @@ import os
 import sys
 from tkinter.scrolledtext import ScrolledText
 from tkinter import simpledialog
+import platform
 
+def make_server():
+	if platform.system() == "Darwin":
+		return socket.gethostbyaddr(socket.gethostbyname("localhost"))[0]
+	else:
+		return socket.gethostbyaddr(socket.gethostname())[0]
 
 class ZycoEditor:
     def __init__(self):
         self.root = tk.Tk()
         self.root.geometry('1000x900')
-        self.root.title("Zyco@{} (Not Saved..)".format(socket.gethostbyaddr(socket.gethostname())[0]))
+        self.root.title("Zyco@{} (Not Saved..)".format(make_server()))
         self.canvas = None
         self.text = tk.Text(self.root, width=400, height=100, undo=True, autoseparators=True, maxundo=-1)
         self.text.config(wrap='word')
